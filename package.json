@@ -1,7 +1,7 @@
 {
-  "name": "ts-module-starter",
+  "name": "lab-env-utils",
   "version": "1.0.0",
-  "description": "Template for creating typescript modules",
+  "description": "Utils for helping manage env varaibles",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
