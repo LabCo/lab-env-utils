@@ -1,1 +1,1 @@
-export declare function test(str: string): string;
+export { PartialEnv } from "./envUtils";

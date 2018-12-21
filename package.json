@@ -1,6 +1,6 @@
 {
   "name": "lab-env-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utils for helping manage env varaibles",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,5 +17,8 @@
     "jest": "^23.6.0",
     "ts-jest": "^23.10.5",
     "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "winston": "^3.1.0"
   }
 }

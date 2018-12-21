@@ -1,5 +1,1 @@
-
- 
-export function test(str: string): string {
-  return str
-}
+export { PartialEnv } from "./envUtils";

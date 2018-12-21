@@ -1,6 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function test(str) {
-    return "hi";
-}
-exports.test = test;
+var envUtils_1 = require("./envUtils");
+exports.PartialEnv = envUtils_1.PartialEnv;
