@@ -1,6 +1,6 @@
 {
   "name": "lab-env-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Utils for helping manage env varaibles",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
