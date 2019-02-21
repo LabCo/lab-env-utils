@@ -48,10 +48,19 @@ export abstract class PartialEnv {
   }
 
   protected parseEnvAsString<T extends string>(envVarName: string, options?: { defaultValue?:T, allowed?: Set<T> }): T {
+    const parsed = this.parseEnvAsStringOrNull(envVarName, options)
+    if(parsed == null) { 
+      throw new Error(`${envVarName} must be defined`)
+    }
+
+    return parsed;
+  }
+
+  protected parseEnvAsStringOrNull<T extends string>(envVarName: string, options?: { defaultValue?:T | null, allowed?: Set<T> }): T | null {
     if(envVarName == null) { throw new Error("envVarName is null") }
 
     const valueStr = process.env[envVarName] as T
-    if(valueStr == null && options != null && options.defaultValue != null) {
+    if(valueStr == null && options != null && options.defaultValue !== undefined) {
       this.logger.warn(`${envVarName} not defined, using default ${options.defaultValue}`);
       return options.defaultValue;
     } else if(valueStr == null) {
@@ -66,29 +75,33 @@ export abstract class PartialEnv {
     return valueStr
   }
 
-  protected parseEnvAsNumber(envVarName: string, options: { defaultValue?:number, max?:number, min?:number }) {
+  protected parseEnvAsNumber<T extends string>(envVarName: string, options?: { defaultValue?:number, max?:number, min?:number}): number {
+    const parsed = this.parseEnvAsNumberOrNull(envVarName, options)
+    if(parsed == null) { 
+      throw new Error(`${envVarName} must be defined`)
+    }
+    return parsed;
+  }
+
+  protected parseEnvAsNumberOrNull(envVarName: string, options?: { defaultValue?:number | null, max?:number, min?:number }): number | null {
     if(envVarName == null) { throw new Error("envVarName is null") }
 
-    const handleDefault = () => {
-      if(options.defaultValue != null) {
-        this.logger.warn(`${envVarName} not defined, using default ${options.defaultValue}`);
-        return options.defaultValue;
-      } else {
-        throw new Error(`${envVarName} must be defined`)
-      }
-    }
-
     const valueStr = process.env[envVarName]
-    if(valueStr == null) { return handleDefault() }
-
+    if(valueStr == null && options != null && options.defaultValue !== undefined) {
+      this.logger.warn(`${envVarName} not defined, using default ${options.defaultValue}`);
+      return options.defaultValue;
+    } else if(valueStr == null) {
+      throw new Error(`${envVarName} must be defined`)
+    }
     const value = parseInt(valueStr)
-    if(value == null) {
+
+    if(value == null || Number.isNaN(value) ) {
       throw new Error(`${envVarName} value ${valueStr} is not a number`)
     }
-    if(options.min != null && value < options.min) {
+    if(options != null && options.min != null && value < options.min) {
       throw new Error(`${envVarName} value ${valueStr} must be at least ${options.min}`);
     }
-    if(options.max != null && value > options.max) {
+    if(options != null && options.max != null && value > options.max) {
       throw new Error(`${envVarName} value ${valueStr} must be no greater than ${options.max}`);
     }
 
